@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioServiceImplementation implements UsuarioService{
@@ -20,6 +21,12 @@ public class UsuarioServiceImplementation implements UsuarioService{
 
     @Override
     public Usuario findById(Integer id) {
-        return null;
+        Optional<Usuario> usuario = repository.findById(id);
+        if(usuario.isPresent()) {
+            return usuario.get();
+        }
+        else{
+            throw new RuntimeException("Usuario não foi encontrado");
+        }
     }
 }

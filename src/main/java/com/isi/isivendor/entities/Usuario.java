@@ -1,9 +1,14 @@
 package com.isi.isivendor.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
+@Table(name = "usuario")
 public class Usuario {
 
     @Id
@@ -24,6 +29,9 @@ public class Usuario {
 
     @Column(name="senha")
     private String senha;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public Usuario(){}
 
@@ -82,5 +90,9 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
     }
 }
