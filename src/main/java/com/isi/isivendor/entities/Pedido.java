@@ -1,6 +1,8 @@
 package com.isi.isivendor.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.isi.isivendor.entities.enums.PedidoStatus;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -13,7 +15,11 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT")
     private Instant instante;
+
+    @Column(name = "status_pedido")
+    private Integer pedidoStatus;
 
     @JsonIgnore
     @ManyToOne
@@ -22,10 +28,11 @@ public class Pedido {
 
     public Pedido(){}
 
-    public Pedido(Integer id, Instant instante, Usuario usuario) {
+    public Pedido(Integer id, Instant instante, Usuario usuario, PedidoStatus pedidoStatus) {
         this.id = id;
         this.instante = instante;
         this.usuario = usuario;
+        setPedidoStatus(pedidoStatus);
     }
 
     public Integer getId() {
@@ -50,5 +57,15 @@ public class Pedido {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public PedidoStatus getPedidoStatus() {
+        return PedidoStatus.valor(pedidoStatus);
+    }
+
+    public void setPedidoStatus(PedidoStatus pedidoStatus) {
+        if(pedidoStatus != null){
+            this.pedidoStatus = pedidoStatus.getCode();
+        }
     }
 }
