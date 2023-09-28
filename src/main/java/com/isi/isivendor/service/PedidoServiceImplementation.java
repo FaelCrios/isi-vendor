@@ -21,9 +21,9 @@ public class PedidoServiceImplementation implements PedidoService{
 
     @Override
     public Pedido findById(Integer id) {
-        Optional<Pedido> Pedido = repository.findById(id);
-        if(Pedido.isPresent()) {
-            return Pedido.get();
+        Optional<Pedido> pedido = repository.findById(id);
+        if(pedido.isPresent()) {
+            return pedido.get();
         }
         else{
             throw new RuntimeException("Pedido não foi encontrado");
