@@ -4,6 +4,6 @@ create table `item_pedido` (
                                      `quantidade` BIGINT(20) NOT NULL,
                                      `preco` double,
                                      foreign key (`id_produto`)  references produto(`id`),
-                                     foreign key (id_pedido) references pedido(`id`)
+                                     foreign key (`id_pedido`) references pedido(`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 

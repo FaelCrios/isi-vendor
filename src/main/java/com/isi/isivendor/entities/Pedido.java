@@ -23,13 +23,17 @@ public class Pedido {
     @Column(name = "status_pedido")
     private Integer pedidoStatus;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name= "id_usuario")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "id.pedido")
     private Set<ItemPedido> items = new HashSet<>();
+
+
+    @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Pagamento pagamento;
 
 
     public Pedido(){}
@@ -77,5 +81,13 @@ public class Pedido {
 
     public Set<ItemPedido> getItems() {
         return items;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
     }
 }

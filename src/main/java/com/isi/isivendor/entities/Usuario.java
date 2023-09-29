@@ -30,6 +30,7 @@ public class Usuario {
     @Column(name="senha")
     private String senha;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private List<Pedido> pedidos = new ArrayList<>();
 

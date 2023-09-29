@@ -1,5 +1,6 @@
 package com.isi.isivendor.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -27,6 +28,10 @@ public class Produto {
             joinColumns = @JoinColumn(name = "id_produto"),
             inverseJoinColumns = @JoinColumn(name = "id_categoria"))
     private Set<Categoria> categorias = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> items = new HashSet<>();
+
 
     public Produto(){}
 
@@ -81,5 +86,18 @@ public class Produto {
     public Set<Categoria> getCategorias() {
         return categorias;
     }
+
+    @JsonIgnore
+    public Set<Pedido> getPedidos(){
+        Set<Pedido> set = new HashSet<>();
+        for(ItemPedido x: items){
+            set.add(x.getPedido());
+        }
+        return set;
+    }
+
+
+
+
 
 }

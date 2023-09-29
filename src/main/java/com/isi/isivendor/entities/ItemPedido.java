@@ -1,11 +1,11 @@
 package com.isi.isivendor.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.isi.isivendor.entities.pk.ItemPedidoPK;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 
@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class ItemPedido implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ItemPedidoPK id = new ItemPedidoPK();
 
     private Integer quantidade;
@@ -28,6 +29,7 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
     }
 
+    @JsonIgnore
     public Pedido getPedido(){
         return id.getPedido();
     }

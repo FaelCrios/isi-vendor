@@ -50,7 +50,18 @@ public class TestConfig implements CommandLineRunner {
         produtoRepository.save(prod1);
 
         ItemPedido ip1 = new ItemPedido(prod1, p1, 3,prod1.getPrice());
+        ItemPedido ip2 = new ItemPedido(prod1, p2, 3,prod1.getPrice());
+
         itemPedidoRepository.save(ip1);
+        itemPedidoRepository.save(ip2);
+
+
+        Pagamento pag1 = new Pagamento(null, Instant.now(),p1);
+        Pagamento pag2 = new Pagamento(null, Instant.now(),p2);
+
+        p1.setPagamento(pag1);
+        p2.setPagamento(pag2);
+        pedidoRepository.saveAll(Arrays.asList(p1,p2));
 
     }
 }
