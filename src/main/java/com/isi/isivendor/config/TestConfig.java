@@ -1,14 +1,8 @@
 package com.isi.isivendor.config;
 
-import com.isi.isivendor.entities.Categoria;
-import com.isi.isivendor.entities.Pedido;
-import com.isi.isivendor.entities.Produto;
-import com.isi.isivendor.entities.Usuario;
+import com.isi.isivendor.entities.*;
 import com.isi.isivendor.entities.enums.PedidoStatus;
-import com.isi.isivendor.repository.CategoriaRepository;
-import com.isi.isivendor.repository.PedidoRepository;
-import com.isi.isivendor.repository.ProdutoRepository;
-import com.isi.isivendor.repository.UsuarioRepository;
+import com.isi.isivendor.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +27,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
+
     @Override
     public void run(String... args) throws Exception {
         Usuario u1 = new Usuario(null,"Rafael","Colin Rios","email@email.com","16999990000","123456");
@@ -51,6 +48,9 @@ public class TestConfig implements CommandLineRunner {
         pedidoRepository.saveAll(Arrays.asList(p1,p2));
         categoriaRepository.save(c1);
         produtoRepository.save(prod1);
+
+        ItemPedido ip1 = new ItemPedido(prod1, p1, 3,prod1.getPrice());
+        itemPedidoRepository.save(ip1);
 
     }
 }

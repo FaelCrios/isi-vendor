@@ -6,6 +6,8 @@ import com.isi.isivendor.entities.enums.PedidoStatus;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "pedido")
@@ -25,6 +27,10 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name= "id_usuario")
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "id.pedido")
+    private Set<ItemPedido> items = new HashSet<>();
+
 
     public Pedido(){}
 
@@ -67,5 +73,9 @@ public class Pedido {
         if(pedidoStatus != null){
             this.pedidoStatus = pedidoStatus.getCode();
         }
+    }
+
+    public Set<ItemPedido> getItems() {
+        return items;
     }
 }
