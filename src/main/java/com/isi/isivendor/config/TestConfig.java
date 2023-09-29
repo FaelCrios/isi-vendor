@@ -44,11 +44,13 @@ public class TestConfig implements CommandLineRunner {
         Categoria c1 = new Categoria(null, "D20");
 
         Produto prod1 = new Produto(null, "Dado RPG", "LOREM IPSUM LOREM IPSUM", 25.12, "WWW.GOOGLE.COM");
+        prod1.getCategorias().add(c1);
 
         usuarioRepository.saveAll(Arrays.asList(u1,u1));
         System.out.println("AL");
         pedidoRepository.saveAll(Arrays.asList(p1,p2));
         categoriaRepository.save(c1);
         produtoRepository.save(prod1);
+
     }
 }

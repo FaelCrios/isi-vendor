@@ -22,7 +22,10 @@ public class Produto {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @Transient
+    @ManyToMany
+    @JoinTable(name = "produto_categoria",
+            joinColumns = @JoinColumn(name = "id_produto"),
+            inverseJoinColumns = @JoinColumn(name = "id_categoria"))
     private Set<Categoria> categorias = new HashSet<>();
 
     public Produto(){}
