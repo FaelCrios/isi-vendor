@@ -30,4 +30,31 @@ public class CategoriaServiceImplementation implements CategoriaService{
             throw new RuntimeException("Não foi possível encontrar esta categoria");
         }
     }
+
+    @Override
+    public Categoria insert(Categoria categoria) {
+        return repository.save(categoria);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public Categoria update(Integer id, Categoria categoria) {
+        Optional<Categoria> aux = repository.findById(id);
+        Categoria auxiliar;
+        if(aux.isPresent()){
+            auxiliar = updateData(aux.get(), categoria);
+        }else{
+            throw new RuntimeException("Categoria não encontrada para ser alterada");
+        }
+        return repository.save(auxiliar);
+    }
+
+    private Categoria updateData(Categoria aux, Categoria categoria){
+        aux.setNome(categoria.getNome());
+        return aux;
+    }
 }

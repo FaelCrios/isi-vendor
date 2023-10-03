@@ -43,20 +43,20 @@ public class UsuarioServiceImplementation implements UsuarioService{
     @Override
     public Usuario update(Integer id, Usuario usuario) {
         Optional<Usuario> aux = repository.findById(id);
-        if(aux.isPresent()){
-            Usuario entidade = aux.get();
-            updateData(entidade, usuario);
-        }
-        else{
+        Usuario auxiliar;
+        if (aux.isPresent()) {
+            auxiliar = updateData(aux.get(), usuario);
+        } else {
             throw new RuntimeException("Usuario não encontrado para atualização!");
         }
-        return repository.save(usuario);
+        return repository.save(auxiliar);
     }
 
-    private void updateData(Usuario aux, Usuario usuario ){
+    private Usuario updateData(Usuario aux, Usuario usuario ){
         aux.setNome(usuario.getNome());
         aux.setSobrenome(usuario.getSobrenome());
         aux.setEmail(usuario.getEmail());
         aux.setTelefone(usuario.getTelefone());
+        return aux;
     }
 }
