@@ -29,4 +29,15 @@ public class UsuarioServiceImplementation implements UsuarioService{
             throw new RuntimeException("Usuario não foi encontrado");
         }
     }
+
+    @Override
+    public Usuario insert(Usuario user) {
+        return repository.save(user);
+
+    }
+
+    @Override
+    public void delete(Integer id){
+        repository.deleteById(id);
+    }
 }

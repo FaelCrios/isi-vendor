@@ -14,4 +14,8 @@ public interface UsuarioService {
 
     public Usuario findById(Integer id);
 
+    public Usuario insert(Usuario user);
+
+    public void delete(Integer id);
+
 }

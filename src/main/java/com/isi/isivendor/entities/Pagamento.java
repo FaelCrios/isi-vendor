@@ -1,5 +1,6 @@
 package com.isi.isivendor.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ public class Pagamento implements Serializable {
 
     private Instant momento;
 
+    @JsonIgnore
     @OneToOne
     @MapsId
     private Pedido pedido;
