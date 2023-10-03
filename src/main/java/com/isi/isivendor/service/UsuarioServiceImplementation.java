@@ -35,9 +35,28 @@ public class UsuarioServiceImplementation implements UsuarioService{
         return repository.save(user);
 
     }
-
     @Override
     public void delete(Integer id){
         repository.deleteById(id);
+    }
+
+    @Override
+    public Usuario update(Integer id, Usuario usuario) {
+        Optional<Usuario> aux = repository.findById(id);
+        if(aux.isPresent()){
+            Usuario entidade = aux.get();
+            updateData(entidade, usuario);
+        }
+        else{
+            throw new RuntimeException("Usuario não encontrado para atualização!");
+        }
+        return repository.save(usuario);
+    }
+
+    private void updateData(Usuario aux, Usuario usuario ){
+        aux.setNome(usuario.getNome());
+        aux.setSobrenome(usuario.getSobrenome());
+        aux.setEmail(usuario.getEmail());
+        aux.setTelefone(usuario.getTelefone());
     }
 }
