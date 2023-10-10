@@ -3,6 +3,11 @@ package com.isi.isivendor.config;
 import com.isi.isivendor.entities.*;
 import com.isi.isivendor.entities.enums.PedidoStatus;
 import com.isi.isivendor.repository.*;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +15,7 @@ import org.springframework.context.annotation.Profile;
 
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Properties;
 
 @Configuration
 @Profile("test")
@@ -65,5 +71,39 @@ public class TestConfig implements CommandLineRunner {
         p2.setPagamento(pag2);
         pedidoRepository.saveAll(Arrays.asList(p1,p2));
         */
+
+        Properties prop = new Properties();
+        prop.put("mail.smtp.auth", true);
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host", "smtp.mailtrap.io");
+        prop.put("mail.smtp.port", "25");
+        prop.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
+
+        Session session = Session.getInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(getDefaultUserName(), getPasswordAuthentication().getPassword());
+            }
+        });
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("rcolinrios@gmail.com"));
+        message.setRecipients(
+                Message.RecipientType.TO, InternetAddress.parse("faelnek@gmail.com"));
+        message.setSubject("Mail Subject");
+
+        String msg = "This is my first email using JavaMailer";
+
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
+
+        message.setContent(multipart);
+
+        Transport.send(message);
+
+
     }
 }
