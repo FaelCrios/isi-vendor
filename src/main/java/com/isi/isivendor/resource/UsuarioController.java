@@ -1,6 +1,7 @@
 package com.isi.isivendor.resource;
 
 import com.isi.isivendor.entities.Usuario;
+import com.isi.isivendor.service.EmailService;
 import com.isi.isivendor.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService service;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> getAllUsuario(){
@@ -34,6 +38,13 @@ public class UsuarioController {
         user = service.insert(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(user.getId()).toUri();
+
+        String subject = "E-COMMERCE APPLICATION | Cadastro de Usuario Notificação";
+        String email = user.getEmail();
+        String message = "Olá "+user.getNome() + ", \nSua conta foi cadastrada \n"+"muito obrigado por acreditar no nosso trabalho !";
+
+        emailService.sendEmail(email,subject,message);
+
         return ResponseEntity.created(uri).body(user);
     }
 
