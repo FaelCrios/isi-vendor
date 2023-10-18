@@ -30,7 +30,7 @@ public class RelatorioController {
     private UsuarioService userService;
 
     @GetMapping
-    public ResponseEntity<Void> sendRelatorio() {
+    public ResponseEntity<Void> sendRelatorio(@RequestBody String email) {
         List<Pedido> pedidos = services.findAll();
         String subject = "E-COMMERCE APPLICATION | Envio de Relatório";
 
@@ -65,7 +65,7 @@ public class RelatorioController {
 
         }
 
-        emailService.sendEmail("faelnek@gmail.com", subject, message.toString());
+        emailService.sendEmail(email, subject, message.toString());
         return ResponseEntity.noContent().build();
     }
 
