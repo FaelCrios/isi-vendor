@@ -98,4 +98,15 @@ public class Pedido {
         }
         return soma;
     }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "instante=" + instante +
+                ", pedidoStatus=" + pedidoStatus +
+                ", usuario=" + usuario +
+                ", items=" + items +
+                ", pagamento=" + pagamento +
+                '}';
+    }
 }

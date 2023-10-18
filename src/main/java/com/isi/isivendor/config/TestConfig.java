@@ -39,7 +39,7 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-       /*
+    /*
         Usuario u1 = new Usuario(null,"Rafael","Colin Rios","email@email.com","16999990000","123456");
         Usuario u2 = new Usuario(null,"Rafael","Colin Rios","email@email.com","16999990000","123456");
 
@@ -70,7 +70,7 @@ public class TestConfig implements CommandLineRunner {
         p1.setPagamento(pag1);
         p2.setPagamento(pag2);
         pedidoRepository.saveAll(Arrays.asList(p1,p2));
-        */
 
+    */
     }
 }

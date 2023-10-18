@@ -13,4 +13,8 @@ public interface PedidoService {
 
     public Pedido findById(Integer id);
 
+    public Pedido addPedido(Pedido pedido);
+
+    public Pedido updatePedido(Pedido pedido, Integer id);
+
 }

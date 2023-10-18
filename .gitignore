@@ -34,4 +34,3 @@ build/
 .vscode/
 
 src/main/resources/application-dev.properties
-
