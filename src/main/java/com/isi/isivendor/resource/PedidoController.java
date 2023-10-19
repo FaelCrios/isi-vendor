@@ -100,8 +100,6 @@ public class PedidoController {
 
             Double preco = itemPedidoDTO.getPreco();
 
-
-
             itemPedido.setQuantidade(quantidade);
             itemPedido.setProduto(auxProduto);
             itemPedido.setPedido(pedido);
