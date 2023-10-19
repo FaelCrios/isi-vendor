@@ -30,12 +30,6 @@ public class PedidoController {
     @Autowired
     private ProdutoService produtoService;
 
-    @Autowired
-    private PedidoService pedidoService;
-
-    @Autowired
-    private ItemPedidoRepository pedidoRepository;
-
     @GetMapping
     public ResponseEntity<List<Pedido>> getAllPedido(){
         List<Pedido> pedidos = service.findAll();
@@ -48,31 +42,6 @@ public class PedidoController {
         return ResponseEntity.ok().body(pedido);
     }
 
-    /*
-    @PostMapping
-    public ResponseEntity<Pedido> postPedido(@RequestBody PedidoUsuarioDTO pedidoUsuarioDTO){
-
-        Pedido pedido = pedidoUsuarioDTO.getPedido();
-        Usuario usuario = pedidoUsuarioDTO.getUsuario();
-
-        try{
-            pedido.setInstante(Instant.now());
-            Integer id = usuario.getId();
-            Usuario aux = serviceUsuario.findById(id);
-            pedido.setUsuario(aux);
-            pedido =  service.insert(pedido);
-
-        }
-        catch (Exception e ){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(pedido.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(pedido);
-    }
-     */
 
     @PostMapping
     public ResponseEntity<Pedido> postPedido(@RequestBody PedidoUsuarioItemDTO pedidoUsuarioItemDTO){
@@ -98,7 +67,7 @@ public class PedidoController {
             Pagamento auxPagamento = service.findById(idPagamento).getPagamento();
             System.out.println(auxPagamento);
 
-            Double preco = itemPedidoDTO.getPreco();
+            Double preco = auxProduto.getPrice();
 
             itemPedido.setQuantidade(quantidade);
             itemPedido.setProduto(auxProduto);
