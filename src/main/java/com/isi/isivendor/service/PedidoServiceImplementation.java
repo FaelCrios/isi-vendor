@@ -32,8 +32,13 @@ public class PedidoServiceImplementation implements PedidoService{
     }
 
     @Override
-    public Pedido addPedido(Pedido pedido) {
+    public Pedido insert(Pedido pedido) {
         return repository.save(pedido);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        repository.deleteById(id);
     }
 
     @Override

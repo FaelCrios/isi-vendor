@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface PedidoService {
 
-
-
     public List<Pedido> findAll();
 
     public Pedido findById(Integer id);
 
-    public Pedido addPedido(Pedido pedido);
+    public Pedido insert(Pedido pedido);
+
+    public void delete(Integer id);
 
     public Pedido updatePedido(Pedido pedido, Integer id);
 

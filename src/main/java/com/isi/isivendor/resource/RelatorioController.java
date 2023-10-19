@@ -1,24 +1,16 @@
 package com.isi.isivendor.resource;
-
 import com.isi.isivendor.entities.*;
 import com.isi.isivendor.service.EmailService;
 import com.isi.isivendor.service.PedidoService;
-import com.isi.isivendor.service.UsuarioService;
-import jakarta.validation.constraints.Email;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -31,8 +23,6 @@ public class RelatorioController {
     @Autowired
     private EmailService emailService;
 
-    @Autowired
-    private UsuarioService userService;
 
 
     @GetMapping
