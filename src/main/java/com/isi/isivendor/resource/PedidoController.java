@@ -30,6 +30,9 @@ public class PedidoController {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
+
     @GetMapping
     public ResponseEntity<List<Pedido>> getAllPedido(){
         List<Pedido> pedidos = service.findAll();
@@ -79,6 +82,11 @@ public class PedidoController {
             pedido.setPagamento(auxPagamento);
             pedido.getItems().add(itemPedido);
             pedido.setUsuario(auxUsuario);
+
+            ItemPedido itemPedido1 = new ItemPedido(auxProduto,pedido,quantidade,preco);
+
+            itemPedidoRepository.save(itemPedido1);
+            produtoService.insert(auxProduto);
             pedido =  service.insert(pedido);
 
         }
