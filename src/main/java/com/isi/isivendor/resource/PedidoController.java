@@ -6,6 +6,12 @@ import com.isi.isivendor.repository.ItemPedidoRepository;
 import com.isi.isivendor.service.PedidoService;
 import com.isi.isivendor.service.ProdutoService;
 import com.isi.isivendor.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +25,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/pedidos")
+@Tag(name="Pedido", description = "EndPoint para gerenciamento das requisições dos nossos pedidos")
 public class PedidoController {
 
     @Autowired
@@ -34,19 +41,66 @@ public class PedidoController {
     private ItemPedidoRepository itemPedidoRepository;
 
     @GetMapping
+    @Operation(
+            summary = "Encontra todos os pedidos",
+            description = "Encontra todos os pedidos cadastrados na nossa base de dados",
+            tags = {"Pedido"},
+            responses = {
+                    @ApiResponse(
+                            description = "Sucesso",
+                            responseCode = "200",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = Pedido.class))
+                                    )
+                            }
+                    ),
+                    @ApiResponse(description = "Erro interno", responseCode = "500", content = @Content)
+            }
+    )
     public ResponseEntity<List<Pedido>> getAllPedido(){
         List<Pedido> pedidos = service.findAll();
         return ResponseEntity.ok().body(pedidos);
     }
 
     @GetMapping(value = "/{id}")
+    @Operation(summary = "Encontra um pedido",
+    description = "Encontra um pedido pelo ID",
+    tags = {"Pedido"},
+            responses = {
+            @ApiResponse(
+                    description = "Sucesso",
+                    responseCode = "200",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Pedido.class))
+            ),
+                    @ApiResponse(description = "Não foi encontrado", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Erro interno", responseCode = "500", content = @Content)
+
+            }
+    )
     public ResponseEntity<Pedido> getPedidoById(@PathVariable Integer id){
         Pedido pedido = service.findById(id);
         return ResponseEntity.ok().body(pedido);
     }
 
 
+
     @PostMapping
+    @Operation(
+            summary = "Adiciona um novo pedido",
+            description = "Adiciona um novo pedido, recebendo ele e suas entidades aninhas sendo representadas por JSON",
+            tags = {"Pedido"},
+            responses = {
+                    @ApiResponse(
+                            description = "Sucesso",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Pedido.class))
+                    ),
+                    @ApiResponse(description = "Não foi encontrado", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Erro interno", responseCode = "500", content = @Content)
+            }
+    )
     public ResponseEntity<Pedido> postPedido(@RequestBody PedidoUsuarioItemDTO pedidoUsuarioItemDTO){
 
         Pedido pedido = pedidoUsuarioItemDTO.getPedido();
