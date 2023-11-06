@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name="item_pedido")
@@ -70,4 +71,25 @@ public class ItemPedido implements Serializable {
         return preco * quantidade;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemPedido that = (ItemPedido) o;
+        return Objects.equals(id, that.id) && Objects.equals(quantidade, that.quantidade) && Objects.equals(preco, that.preco);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, quantidade, preco);
+    }
+
+    @Override
+    public String toString() {
+        return "ItemPedido{" +
+                "id=" + id +
+                ", quantidade=" + quantidade +
+                ", preco=" + preco +
+                '}';
+    }
 }

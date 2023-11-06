@@ -3,6 +3,7 @@ package com.isi.isivendor.resource;
 import com.isi.isivendor.entities.*;
 import com.isi.isivendor.entities.DTO.*;
 import com.isi.isivendor.repository.ItemPedidoRepository;
+import com.isi.isivendor.service.ItemPedidoService;
 import com.isi.isivendor.service.PedidoService;
 import com.isi.isivendor.service.ProdutoService;
 import com.isi.isivendor.service.UsuarioService;
@@ -38,7 +39,7 @@ public class PedidoController {
     private ProdutoService produtoService;
 
     @Autowired
-    private ItemPedidoRepository itemPedidoRepository;
+    private ItemPedidoService itemPedidoService;
 
     @GetMapping
     @Operation(
@@ -107,7 +108,6 @@ public class PedidoController {
         Usuario usuario = pedidoUsuarioItemDTO.getUsuario();
         ItemPedidoDTO itemPedidoDTO= pedidoUsuarioItemDTO.getItemPedido();
         Pagamento pagamento = pedidoUsuarioItemDTO.getPagamento();
-        ItemPedido itemPedido = new ItemPedido();
 
 
         try{
@@ -124,24 +124,17 @@ public class PedidoController {
             Pagamento auxPagamento = service.findById(idPagamento).getPagamento();
             System.out.println(auxPagamento);
 
-            Double preco = auxProduto.getPrice();
-
-            itemPedido.setQuantidade(quantidade);
-            itemPedido.setProduto(auxProduto);
-            itemPedido.setPedido(pedido);
-            itemPedido.setPreco(preco);
-
-
-            System.out.println(itemPedido);
             pedido.setPagamento(auxPagamento);
-            pedido.getItems().add(itemPedido);
             pedido.setUsuario(auxUsuario);
 
-            ItemPedido itemPedido1 = new ItemPedido(auxProduto,pedido,quantidade,preco);
+            ItemPedido itemPedido = new ItemPedido(auxProduto,pedido,quantidade, auxProduto.getPrice());
 
-            itemPedidoRepository.save(itemPedido1);
+            pedido.getItems().add(itemPedido);
+
+            System.out.println(itemPedido);
+            itemPedidoService.insert(itemPedido);
+            service.insert(pedido);
             produtoService.insert(auxProduto);
-            pedido =  service.insert(pedido);
 
         }
         catch (Exception e ){
