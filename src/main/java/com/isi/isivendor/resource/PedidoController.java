@@ -39,6 +39,9 @@ public class PedidoController {
     private ProdutoService produtoService;
 
     @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
+
+    @Autowired
     private ItemPedidoService itemPedidoService;
 
     @GetMapping
@@ -118,23 +121,27 @@ public class PedidoController {
 
             Integer idProduto = itemPedidoDTO.getProduto();
             Produto auxProduto = produtoService.findById(idProduto);
+
             Integer quantidade = itemPedidoDTO.getQuantidade();
+
 
             Integer idPagamento = pagamento.getId();
             Pagamento auxPagamento = service.findById(idPagamento).getPagamento();
-            System.out.println(auxPagamento);
 
             pedido.setPagamento(auxPagamento);
             pedido.setUsuario(auxUsuario);
+            System.out.println(pedido);
+
 
             ItemPedido itemPedido = new ItemPedido(auxProduto,pedido,quantidade, auxProduto.getPrice());
-
-            pedido.getItems().add(itemPedido);
-
             System.out.println(itemPedido);
-            itemPedidoService.insert(itemPedido);
-            service.insert(pedido);
+
+
             produtoService.insert(auxProduto);
+           // itemPedidoService.insert(itemPedido);
+            itemPedidoRepository.saveAndFlush(itemPedido);
+            service.insert(pedido);
+
 
         }
         catch (Exception e ){

@@ -2,20 +2,21 @@ package com.isi.isivendor.entities.DTO;
 
 public class ItemPedidoDTO {
 
-    private Integer pedido;
-
     private Integer produto;
 
     private Integer quantidade;
     private Double preco;
 
-    public Integer getPedido() {
+    /*public Integer getPedido() {
         return pedido;
-    }
+    }*/
 
+    /*
     public void setPedido(Integer pedido) {
         this.pedido = pedido;
     }
+    */
+
 
     public Integer getProduto() {
         return produto;
