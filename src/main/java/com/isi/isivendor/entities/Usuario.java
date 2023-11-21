@@ -2,12 +2,16 @@ package com.isi.isivendor.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 @Table(name = "usuario")
 public class Usuario {
 
@@ -95,5 +99,18 @@ public class Usuario {
 
     public List<Pedido> getPedidos() {
         return pedidos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(id, usuario.id) && Objects.equals(nome, usuario.nome) && Objects.equals(sobrenome, usuario.sobrenome) && Objects.equals(email, usuario.email) && Objects.equals(telefone, usuario.telefone) && Objects.equals(senha, usuario.senha) && Objects.equals(pedidos, usuario.pedidos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, sobrenome, email, telefone, senha, pedidos);
     }
 }

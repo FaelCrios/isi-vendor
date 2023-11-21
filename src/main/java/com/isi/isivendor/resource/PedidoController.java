@@ -2,7 +2,8 @@ package com.isi.isivendor.resource;
 
 import com.isi.isivendor.entities.*;
 import com.isi.isivendor.entities.DTO.*;
-import com.isi.isivendor.repository.ItemPedidoRepository;
+import com.isi.isivendor.entities.enums.PedidoStatus;
+import com.isi.isivendor.repository.*;
 import com.isi.isivendor.service.ItemPedidoService;
 import com.isi.isivendor.service.PedidoService;
 import com.isi.isivendor.service.ProdutoService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.sql.Time;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,18 @@ public class PedidoController {
 
     @Autowired
     private PedidoService service;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private UsuarioService serviceUsuario;
@@ -105,22 +119,27 @@ public class PedidoController {
                     @ApiResponse(description = "Erro interno", responseCode = "500", content = @Content)
             }
     )
-    public ResponseEntity<Pedido> postPedido(@RequestBody PedidoUsuarioItemDTO pedidoUsuarioItemDTO){
+    /*public ResponseEntity<Pedido> postPedido(@RequestBody PedidoUsuarioItemDTO pedidoUsuarioItemDTO){
 
-        Pedido pedido = pedidoUsuarioItemDTO.getPedido();
-        Usuario usuario = pedidoUsuarioItemDTO.getUsuario();
+        //Pedido pedido = pedidoUsuarioItemDTO.getPedido();
+        Pedido pedido = new Pedido();
+        pedido.setInstante(Instant.now());
+
+        Usuario usuarioDTO = pedidoUsuarioItemDTO.getUsuario();
+        Usuario auxUsuario = usuarioRepository.getReferenceById(usuarioDTO.getId());
+        pedido.setUsuario(auxUsuario);
+
         ItemPedidoDTO itemPedidoDTO= pedidoUsuarioItemDTO.getItemPedido();
         Pagamento pagamento = pedidoUsuarioItemDTO.getPagamento();
 
 
         try{
-            pedido.setInstante(Instant.now());
-            Integer idUsuario = usuario.getId();
-            Usuario auxUsuario = serviceUsuario.findById(idUsuario);
+           // Integer idUsuario = usuario.getId();
+           // Usuario auxUsuario = serviceUsuario.findById(idUsuario);
 
 
             Integer idProduto = itemPedidoDTO.getProduto();
-            Produto auxProduto = produtoService.findById(idProduto);
+            Produto auxProduto = produtoRepository.getReferenceById(idProduto);
 
             Integer quantidade = itemPedidoDTO.getQuantidade();
 
@@ -153,7 +172,47 @@ public class PedidoController {
 
         return ResponseEntity.created(uri).body(pedido);
     }
+*/
 
+    public ResponseEntity<Pedido> postPedido(@RequestBody PedidoUsuarioItemPedidoPagamentoDTO dto){
+
+        Pedido pedido = new Pedido();
+
+        try{
+
+            pedido.setInstante(Instant.now());
+
+            pedido.setPedidoStatus(PedidoStatus.valor(dto.getPedido()));
+            Usuario usuarioDTO = serviceUsuario.findById(dto.getUsuario());
+            pedido.setUsuario(usuarioDTO);
+
+            Integer idProduto = dto.getProduto();
+            Produto auxProduto= produtoRepository.getReferenceById(idProduto);
+            ItemPedido itemPedido = new ItemPedido(auxProduto,pedido,dto.getQuantidade(),auxProduto.getPrice());
+
+            Pagamento pagamento = pagamentoRepository.getReferenceById(dto.getPagamento());
+
+
+            pedido.setPagamento(pagamento);
+            System.out.println(pedido);
+
+            System.out.println(itemPedido);
+
+            //produtoService.insert(auxProduto);
+            //itemPedidoRepository.save(itemPedido);
+            service.insert(pedido);
+
+
+        }
+        catch (Exception e ){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(pedido.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(pedido);
+    }
 
 
     @DeleteMapping(value = "/{id}")

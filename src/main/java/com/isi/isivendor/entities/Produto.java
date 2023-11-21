@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -100,8 +101,16 @@ public class Produto {
         return set;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(id, produto.id) && Objects.equals(name, produto.name) && Objects.equals(descricao, produto.descricao) && Objects.equals(price, produto.price) && Objects.equals(imgUrl, produto.imgUrl) && Objects.equals(categorias, produto.categorias) && Objects.equals(items, produto.items) && Objects.equals(estoque, produto.estoque);
+    }
 
-
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, descricao, price, imgUrl, categorias, items, estoque);
+    }
 }

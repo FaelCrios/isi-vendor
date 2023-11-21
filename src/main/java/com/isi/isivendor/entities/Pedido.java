@@ -2,14 +2,17 @@ package com.isi.isivendor.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.isi.isivendor.entities.enums.PedidoStatus;
 import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "pedido")
 public class Pedido {
 
@@ -97,6 +100,19 @@ public class Pedido {
             soma += x.GetSubTotal();
         }
         return soma;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pedido pedido = (Pedido) o;
+        return Objects.equals(id, pedido.id) && Objects.equals(instante, pedido.instante) && Objects.equals(pedidoStatus, pedido.pedidoStatus) && Objects.equals(usuario, pedido.usuario) && Objects.equals(items, pedido.items) && Objects.equals(pagamento, pedido.pagamento);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, instante, pedidoStatus, usuario, items, pagamento);
     }
 
     @Override

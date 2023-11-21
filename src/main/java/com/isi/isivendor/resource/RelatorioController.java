@@ -26,7 +26,7 @@ public class RelatorioController {
     @GetMapping
     public ResponseEntity<Void> sendRelatorio(@RequestBody Map<String, String> requestBody) {
         try {
-            String email = requestBody.get("email"); // Extrai o valor do campo "email" do JSON
+            String email = requestBody.get("email");
             List<Pedido> pedidos = services.findAll();
             String subject = "E-COMMERCE APPLICATION | Envio de Relatório";
 
@@ -40,8 +40,7 @@ public class RelatorioController {
 
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            // Lidar com exceções ao enviar o e-mail
-            e.printStackTrace(); // Registre a exceção ou trate de acordo com suas necessidades
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
