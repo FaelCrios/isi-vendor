@@ -1,4 +1,4 @@
-create table `estoque`(
+CREATE TABLE IF NOT EXISTS `estoque`(
                             `id` BIGINT(20) not null AUTO_INCREMENT,
                             `quantidade` BIGINT(100),
                             `produto_id` BIGINT(20),

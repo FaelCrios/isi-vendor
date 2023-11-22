@@ -1,4 +1,4 @@
-CREATE TABLE `pedido` (
+CREATE TABLE IF NOT EXISTS `pedido` (
                           `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
                           `instante` varchar(60),
                           `id_usuario` BIGINT(20),
