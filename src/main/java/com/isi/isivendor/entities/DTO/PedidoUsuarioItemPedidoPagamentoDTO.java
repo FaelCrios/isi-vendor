@@ -10,8 +10,6 @@ public class PedidoUsuarioItemPedidoPagamentoDTO {
 
     private Integer quantidade;
 
-    private Integer pagamento;
-
     public Integer getPedido() {
         return pedido;
     }
@@ -44,11 +42,4 @@ public class PedidoUsuarioItemPedidoPagamentoDTO {
         this.quantidade = quantidade;
     }
 
-    public Integer getPagamento() {
-        return pagamento;
-    }
-
-    public void setPagamento(Integer pagamento) {
-        this.pagamento = pagamento;
-    }
 }

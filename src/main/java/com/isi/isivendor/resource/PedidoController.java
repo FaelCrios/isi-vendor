@@ -190,16 +190,15 @@ public class PedidoController {
             Produto auxProduto= produtoRepository.getReferenceById(idProduto);
             ItemPedido itemPedido = new ItemPedido(auxProduto,pedido,dto.getQuantidade(),auxProduto.getPrice());
 
-            Pagamento pagamento = pagamentoRepository.getReferenceById(dto.getPagamento());
 
+            Pagamento pag = new Pagamento(null, Instant.now(), pedido);
 
-            pedido.setPagamento(pagamento);
+            pedido.setPagamento(pag);
             System.out.println(pedido);
 
             System.out.println(itemPedido);
+          //  itemPedidoRepository.save(itemPedido);
 
-            //produtoService.insert(auxProduto);
-            //itemPedidoRepository.save(itemPedido);
             service.insert(pedido);
 
 
@@ -211,7 +210,7 @@ public class PedidoController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(pedido.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(pedido);
+        return ResponseEntity.created(uri).build();
     }
 
 
