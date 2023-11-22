@@ -21,10 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.Time;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -35,18 +33,6 @@ public class PedidoController {
     private PedidoService service;
 
     @Autowired
-    private PedidoRepository pedidoRepository;
-
-    @Autowired
-    private ProdutoRepository produtoRepository;
-
-    @Autowired
-    private PagamentoRepository pagamentoRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
     private UsuarioService serviceUsuario;
 
     @Autowired
@@ -54,9 +40,6 @@ public class PedidoController {
 
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
-
-    @Autowired
-    private ItemPedidoService itemPedidoService;
 
     @GetMapping
     @Operation(
@@ -119,88 +102,28 @@ public class PedidoController {
                     @ApiResponse(description = "Erro interno", responseCode = "500", content = @Content)
             }
     )
-    /*public ResponseEntity<Pedido> postPedido(@RequestBody PedidoUsuarioItemDTO pedidoUsuarioItemDTO){
-
-        //Pedido pedido = pedidoUsuarioItemDTO.getPedido();
-        Pedido pedido = new Pedido();
-        pedido.setInstante(Instant.now());
-
-        Usuario usuarioDTO = pedidoUsuarioItemDTO.getUsuario();
-        Usuario auxUsuario = usuarioRepository.getReferenceById(usuarioDTO.getId());
-        pedido.setUsuario(auxUsuario);
-
-        ItemPedidoDTO itemPedidoDTO= pedidoUsuarioItemDTO.getItemPedido();
-        Pagamento pagamento = pedidoUsuarioItemDTO.getPagamento();
 
 
-        try{
-           // Integer idUsuario = usuario.getId();
-           // Usuario auxUsuario = serviceUsuario.findById(idUsuario);
-
-
-            Integer idProduto = itemPedidoDTO.getProduto();
-            Produto auxProduto = produtoRepository.getReferenceById(idProduto);
-
-            Integer quantidade = itemPedidoDTO.getQuantidade();
-
-
-            Integer idPagamento = pagamento.getId();
-            Pagamento auxPagamento = service.findById(idPagamento).getPagamento();
-
-            pedido.setPagamento(auxPagamento);
-            pedido.setUsuario(auxUsuario);
-            System.out.println(pedido);
-
-
-            ItemPedido itemPedido = new ItemPedido(auxProduto,pedido,quantidade, auxProduto.getPrice());
-            System.out.println(itemPedido);
-
-
-            produtoService.insert(auxProduto);
-           // itemPedidoService.insert(itemPedido);
-            itemPedidoRepository.saveAndFlush(itemPedido);
-            service.insert(pedido);
-
-
-        }
-        catch (Exception e ){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(pedido.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(pedido);
-    }
-*/
-
-    public ResponseEntity<Pedido> postPedido(@RequestBody PedidoUsuarioItemPedidoPagamentoDTO dto){
+    public ResponseEntity<Pedido> postPedido(@RequestBody PedidoUsuarioItemPedidoDTO dto){
 
         Pedido pedido = new Pedido();
 
         try{
 
             pedido.setInstante(Instant.now());
-
             pedido.setPedidoStatus(PedidoStatus.valor(dto.getPedido()));
             Usuario usuarioDTO = serviceUsuario.findById(dto.getUsuario());
             pedido.setUsuario(usuarioDTO);
 
             Integer idProduto = dto.getProduto();
-            Produto auxProduto= produtoRepository.getReferenceById(idProduto);
-            ItemPedido itemPedido = new ItemPedido(auxProduto,pedido,dto.getQuantidade(),auxProduto.getPrice());
-
-
-            Pagamento pag = new Pagamento(null, Instant.now(), pedido);
-
-            pedido.setPagamento(pag);
-            System.out.println(pedido);
-
-            System.out.println(itemPedido);
-          //  itemPedidoRepository.save(itemPedido);
-
+            Produto auxProduto= produtoService.findById(idProduto);
             service.insert(pedido);
+            ItemPedido itemPedido = new ItemPedido(auxProduto,pedido,dto.getQuantidade(),auxProduto.getPrice());
+            Pagamento pag = new Pagamento(null, Instant.now(), pedido);
+            pedido.setPagamento(pag);
 
+            itemPedidoRepository.save(itemPedido);
+            service.insert(pedido);
 
         }
         catch (Exception e ){
