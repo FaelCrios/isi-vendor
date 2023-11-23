@@ -3,13 +3,16 @@ package com.isi.isivendor.service;
 import com.isi.isivendor.entities.Usuario;
 import com.isi.isivendor.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioServiceImplementation implements UsuarioService{
+public class UsuarioServiceImplementation implements UsuarioService, UserDetailsService {
 
     @Autowired
     private UsuarioRepository repository;
@@ -58,5 +61,16 @@ public class UsuarioServiceImplementation implements UsuarioService{
         aux.setEmail(usuario.getEmail());
         aux.setTelefone(usuario.getTelefone());
         return aux;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        var user = repository.findByEmail(username);
+        if(user != null){
+            return user;
+        }
+        else {
+            throw new RuntimeException();
+        }
     }
 }
