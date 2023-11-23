@@ -55,11 +55,11 @@ public class Usuario implements UserDetails {
     @JoinTable(name = "usuario_permissao", joinColumns = {@JoinColumn (name = "id_usuario")},
         inverseJoinColumns = {@JoinColumn (name = "id_permission")}
     )
-    private List<Permissao> permissoes;
+    private List<Permissao> roles;
 
     public List<String> getCargos(){
         List<String> cargos = new ArrayList<>();
-        for (Permissao permissao: permissoes) {
+        for (Permissao permissao: roles) {
             cargos.add(permissao.getDescricao());
         }
         return cargos;
@@ -131,7 +131,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.permissoes;
+        return this.roles;
     }
 
     @Override
@@ -196,12 +196,12 @@ public class Usuario implements UserDetails {
         this.enabled = enabled;
     }
 
-    public List<Permissao> getPermissoes() {
-        return permissoes;
+    public List<Permissao> getRoles() {
+        return roles;
     }
 
-    public void setPermissoes(List<Permissao> permissoes) {
-        this.permissoes = permissoes;
+    public void setRoles(List<Permissao> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -209,11 +209,11 @@ public class Usuario implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return Objects.equals(id, usuario.id) && Objects.equals(nome, usuario.nome) && Objects.equals(sobrenome, usuario.sobrenome) && Objects.equals(email, usuario.email) && Objects.equals(telefone, usuario.telefone) && Objects.equals(senha, usuario.senha) && Objects.equals(pedidos, usuario.pedidos) && Objects.equals(accountNonExpired, usuario.accountNonExpired) && Objects.equals(accountNonLocked, usuario.accountNonLocked) && Objects.equals(credentialsNonExpired, usuario.credentialsNonExpired) && Objects.equals(enabled, usuario.enabled) && Objects.equals(permissoes, usuario.permissoes);
+        return Objects.equals(id, usuario.id) && Objects.equals(nome, usuario.nome) && Objects.equals(sobrenome, usuario.sobrenome) && Objects.equals(email, usuario.email) && Objects.equals(telefone, usuario.telefone) && Objects.equals(senha, usuario.senha) && Objects.equals(pedidos, usuario.pedidos) && Objects.equals(accountNonExpired, usuario.accountNonExpired) && Objects.equals(accountNonLocked, usuario.accountNonLocked) && Objects.equals(credentialsNonExpired, usuario.credentialsNonExpired) && Objects.equals(enabled, usuario.enabled) && Objects.equals(roles, usuario.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, sobrenome, email, telefone, senha, pedidos, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, permissoes);
+        return Objects.hash(id, nome, sobrenome, email, telefone, senha, pedidos, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, roles);
     }
 }
