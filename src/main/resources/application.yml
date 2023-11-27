@@ -1,16 +1,15 @@
-security:
-  jwt:
-    token:
-      secret-key: 53cr37
-      expire-lenght: 36000000
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/isi_vendor_database
     username: root
     password: 01234567
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     open-in-view: true
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
 
   profiles:
     active: test
@@ -25,3 +24,15 @@ spring:
         smtp:
           auth: true
           starttls.enable: true
+
+  security:
+    user:
+      name: user
+      password: password
+      roles: USER
+    enable-csrf: false
+
+  jwt:
+    token:
+      secret-key: 53cr37
+      expire-length: 3600000

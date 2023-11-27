@@ -25,7 +25,7 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping("/api/v1/pedidos")
 @Tag(name="Pedido", description = "EndPoint para gerenciamento das requisições dos nossos pedidos")
 public class PedidoController {
 

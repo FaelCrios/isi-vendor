@@ -21,7 +21,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categorias")
+@RequestMapping("/api/v1/categorias")
 @Tag(name="Categoria", description = "EndPoints para gerenciamento das categorias")
 public class CategoriaController {
 

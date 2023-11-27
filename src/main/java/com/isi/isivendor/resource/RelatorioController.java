@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/relatorios")
+@RequestMapping("/api/v1/relatorios")
 public class RelatorioController {
 
     @Autowired
