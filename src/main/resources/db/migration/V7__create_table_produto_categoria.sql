@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `produto_categoria` (
+    create table `produto_categoria` (
                     `id_produto` BIGINT(20) NOT NULL,
                     `id_categoria` BIGINT(20) NOT NULL,
                     foreign key (`id_produto`)  references produto(`id`),

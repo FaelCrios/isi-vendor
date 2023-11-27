@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `categoria` (
+create table `categoria` (
                              `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
                              `nome` varchar(45),
                              PRIMARY KEY (`id`)

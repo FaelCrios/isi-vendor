@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `item_pedido` (
+create table `item_pedido` (
                                      `id_produto` BIGINT(20) NOT NULL,
                                      `id_pedido` BIGINT(20) NOT NULL,
                                      `quantidade` BIGINT(20) NOT NULL,
