@@ -84,7 +84,7 @@ public class CategoriaController {
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Categoria.class))
                     ),
                     @ApiResponse(
-                            description = "Erro interno",
+                            description = "Erro Interno",
                             responseCode = "500",
                             content = @Content
                     )

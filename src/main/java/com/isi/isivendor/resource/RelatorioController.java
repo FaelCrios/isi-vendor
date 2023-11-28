@@ -1,7 +1,12 @@
 package com.isi.isivendor.resource;
 import com.isi.isivendor.entities.*;
+import com.isi.isivendor.entities.DTO.RelatorioDTO;
 import com.isi.isivendor.service.EmailService;
 import com.isi.isivendor.service.PedidoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +29,25 @@ public class RelatorioController {
     private EmailService emailService;
 
     @GetMapping
-    public ResponseEntity<Void> sendRelatorio(@RequestBody Map<String, String> requestBody) {
+    @Operation(
+            summary = "Envia relatório de vendas",
+            description = "Envia relatório sobre as vendas utilizando email de parâmetro ",
+            tags = {"Relatorio"},
+            responses = {
+                    @ApiResponse(
+                            description = "Enviado",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = RelatorioDTO.class))
+                    ),
+                    @ApiResponse(
+                            description = "Erro interno", responseCode = "500", content = @Content
+                    )
+            }
+
+    )
+    public ResponseEntity<Void> sendRelatorio(@RequestBody RelatorioDTO relatorioDTO) {
         try {
-            String email = requestBody.get("email");
+            String email = relatorioDTO.getEmail();
             List<Pedido> pedidos = services.findAll();
             String subject = "E-COMMERCE APPLICATION | Envio de Relatório";
 
@@ -38,7 +59,7 @@ public class RelatorioController {
 
             emailService.sendEmail(email, subject, message.toString());
 
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

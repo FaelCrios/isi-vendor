@@ -33,9 +33,9 @@ public class Produto {
     @OneToMany(mappedBy = "id.produto")
     private Set<ItemPedido> items = new HashSet<>();
 
-    @OneToOne(mappedBy = "produto", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Estoque estoque;
+   // @OneToOne(mappedBy = "produto", cascade = CascadeType.ALL)
+   // @PrimaryKeyJoinColumn
+   // private Estoque estoque;
 
 
     public Produto(){}
@@ -106,11 +106,11 @@ public class Produto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Produto produto = (Produto) o;
-        return Objects.equals(id, produto.id) && Objects.equals(name, produto.name) && Objects.equals(descricao, produto.descricao) && Objects.equals(price, produto.price) && Objects.equals(imgUrl, produto.imgUrl) && Objects.equals(categorias, produto.categorias) && Objects.equals(items, produto.items) && Objects.equals(estoque, produto.estoque);
+        return Objects.equals(id, produto.id) && Objects.equals(name, produto.name) && Objects.equals(descricao, produto.descricao) && Objects.equals(price, produto.price) && Objects.equals(imgUrl, produto.imgUrl) && Objects.equals(categorias, produto.categorias) && Objects.equals(items, produto.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, descricao, price, imgUrl, categorias, items, estoque);
+        return Objects.hash(id, name, descricao, price, imgUrl, categorias, items);
     }
 }
