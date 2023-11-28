@@ -33,9 +33,9 @@ public class Produto {
     @OneToMany(mappedBy = "id.produto")
     private Set<ItemPedido> items = new HashSet<>();
 
-   // @OneToOne(mappedBy = "produto", cascade = CascadeType.ALL)
-   // @PrimaryKeyJoinColumn
-   // private Estoque estoque;
+//    @OneToOne(mappedBy = "produto", cascade = CascadeType.ALL)
+ //   @PrimaryKeyJoinColumn
+//private Estoque estoque;
 
 
     public Produto(){}

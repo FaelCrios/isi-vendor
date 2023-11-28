@@ -34,9 +34,7 @@ public class Pedido {
 
 
     @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private Pagamento pagamento;
-
 
     public Pedido(){}
 

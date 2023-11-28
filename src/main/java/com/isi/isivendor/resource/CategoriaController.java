@@ -116,7 +116,7 @@ public class CategoriaController {
                     )
             }
     )
-    public ResponseEntity<Categoria> DeleteCategoria(@PathVariable Integer id){
+    public ResponseEntity<Void> deleteCategoria(@PathVariable Integer id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
