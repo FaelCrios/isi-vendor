@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto,Integer> {
 
-    @Query("SELECT p FROM Produto p WHERE :categoria MEMBER OF p.categorias")
-    Produto buscarPorCategoria(@Param("categoria") String categoria);
+    @Query("SELECT p FROM Produto p JOIN p.categorias c WHERE c.nome = :categoria")
+    List<Produto> buscarPorCategoria(@Param("categoria") String categoria);
 
 }

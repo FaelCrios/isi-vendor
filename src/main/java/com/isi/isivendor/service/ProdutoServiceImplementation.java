@@ -31,14 +31,8 @@ public class ProdutoServiceImplementation implements ProdutoService{
     }
 
     @Override
-    public Produto getByCategoria(String categoria){
-        Produto produto = repository.buscarPorCategoria(categoria);
-        if(produto != null) {
-            return produto;
-        }
-        else{
-            throw new RuntimeException("Produto não foi encontrado");
-        }
+    public List<Produto> getByCategoria(String categoria){
+            return repository.buscarPorCategoria(categoria);
     }
 
     @Override

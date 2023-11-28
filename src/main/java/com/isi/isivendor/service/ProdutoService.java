@@ -1,8 +1,6 @@
 package com.isi.isivendor.service;
 
-import com.isi.isivendor.entities.Categoria;
 import com.isi.isivendor.entities.Produto;
-import com.isi.isivendor.entities.Usuario;
 
 import java.util.List;
 
@@ -12,7 +10,7 @@ public interface ProdutoService {
 
     public Produto findById(Integer id);
 
-    Produto getByCategoria(String categoria);
+    List<Produto> getByCategoria(String categoria);
 
     public Produto insert(Produto produto);
 

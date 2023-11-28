@@ -33,17 +33,21 @@ public class ProdutoController {
 
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Produto> getprodutoById(@PathVariable Integer id){
+
+    @GetMapping(value = "/categoria/{categoria}")
+    public ResponseEntity<List<Produto>> getByCategoriaDoProduto(@PathVariable String categoria) {
+        List<Produto> produtos = service.getByCategoria(categoria);
+        return ResponseEntity.ok().body(produtos);
+    }
+
+    @GetMapping(value = "/id/{id}")
+    public ResponseEntity<Produto> getprodutoById(@PathVariable Integer id) {
         Produto produto = service.findById(id);
         return ResponseEntity.ok().body(produto);
     }
 
-    @GetMapping(value = "/{categoria}")
-    public ResponseEntity<Produto> getByCategoriaDoProduto(@PathVariable String categoria){
-        Produto produto = service.getByCategoria(categoria);
-        return ResponseEntity.ok().body(produto);
-    }
+
+
 
     @PostMapping
     public ResponseEntity<Produto> postProduto(@RequestBody ProdutoCategoriaDTO produtoCategoriaDTO){
