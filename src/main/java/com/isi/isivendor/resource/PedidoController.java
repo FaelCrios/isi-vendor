@@ -4,7 +4,6 @@ import com.isi.isivendor.entities.*;
 import com.isi.isivendor.entities.DTO.*;
 import com.isi.isivendor.entities.enums.PedidoStatus;
 import com.isi.isivendor.repository.*;
-import com.isi.isivendor.service.ItemPedidoService;
 import com.isi.isivendor.service.PedidoService;
 import com.isi.isivendor.service.ProdutoService;
 import com.isi.isivendor.service.UsuarioService;
