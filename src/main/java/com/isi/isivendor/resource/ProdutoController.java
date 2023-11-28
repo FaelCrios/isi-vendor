@@ -39,16 +39,11 @@ public class ProdutoController {
         return ResponseEntity.ok().body(produto);
     }
 
-    /*
-    @PostMapping
-    public ResponseEntity<Produto> postProduto(@RequestBody Produto produto){
-        produto = service.insert(produto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(produto.getId()).toUri();
-        return ResponseEntity.created(uri).body(produto);
+    @GetMapping(value = "/{categoria}")
+    public ResponseEntity<Produto> getByCategoriaDoProduto(@PathVariable String categoria){
+        Produto produto = service.getByCategoria(categoria);
+        return ResponseEntity.ok().body(produto);
     }
-     */
-
 
     @PostMapping
     public ResponseEntity<Produto> postProduto(@RequestBody ProdutoCategoriaDTO produtoCategoriaDTO){

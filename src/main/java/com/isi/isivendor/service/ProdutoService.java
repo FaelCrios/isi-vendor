@@ -12,6 +12,8 @@ public interface ProdutoService {
 
     public Produto findById(Integer id);
 
+    Produto getByCategoria(String categoria);
+
     public Produto insert(Produto produto);
 
     public void delete(Integer id);

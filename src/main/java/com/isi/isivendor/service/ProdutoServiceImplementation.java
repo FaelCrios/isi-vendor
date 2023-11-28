@@ -1,9 +1,6 @@
 package com.isi.isivendor.service;
 
-import com.isi.isivendor.entities.Categoria;
-import com.isi.isivendor.entities.Pedido;
 import com.isi.isivendor.entities.Produto;
-import com.isi.isivendor.repository.PedidoRepository;
 import com.isi.isivendor.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +31,17 @@ public class ProdutoServiceImplementation implements ProdutoService{
     }
 
     @Override
+    public Produto getByCategoria(String categoria){
+        Produto produto = repository.buscarPorCategoria(categoria);
+        if(produto != null) {
+            return produto;
+        }
+        else{
+            throw new RuntimeException("Produto não foi encontrado");
+        }
+    }
+
+    @Override
     public Produto insert(Produto produto) {
 
         return repository.save(produto);
@@ -55,6 +63,8 @@ public class ProdutoServiceImplementation implements ProdutoService{
         }
         return repository.save(auxiliar);
     }
+
+
 
     private Produto updateData(Produto aux, Produto produto){
         aux.setName(produto.getName());
