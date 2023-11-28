@@ -1,4 +1,4 @@
-create table `produto`(
+CREATE TABLE IF NOT EXISTS `produto`(
                           `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
                           `name` varchar(60),
                           `descricao` varchar(100),
